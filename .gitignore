@@ -1,3 +1,4 @@
+/.idea/
 # Prerequisites
 *.d
 
@@ -50,3 +51,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Ignore any folder
+*.idea/
+*cmake-build-debug/
