@@ -31,7 +31,6 @@ typedef struct flags {
     bool delete_flag{};
     bool all_files{};
     bool test_flag{};
-    bool reverse_flag{};
 } flags_t;
 
 #endif //SPO_COURSEWORK_STRUCTURES_H

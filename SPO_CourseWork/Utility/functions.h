@@ -8,20 +8,15 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <fcntl.h>
-#include <cstdio>
-#include <cstdlib>
 #include <iostream>
 
 #include <dirent.h>
 #include <cstring>
 
 #include <openssl/md5.h>
-#include <map>
-#include <utility>
 #include <vector>
 #include <sstream>
 #include <unistd.h>
-#include <csignal>
 
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
@@ -32,34 +27,7 @@
 #define CYAN    "\033[36m"      /* Cyan */
 #define WHITE   "\033[37m"      /* White */
 
-typedef struct file_data_t {
-    std::string file_name{};
-    std::string file_hash{};
-
-    file_data_t(std::string fileName, std::string fileHash) {
-        file_name = std::move(fileName);
-        file_hash = std::move(fileHash);
-    }
-} file_data_t;
-
-typedef struct file_to_delete {
-    std::string file_name{};
-    std::string file_path{};
-
-    file_to_delete(std::string fileName, std::string filePath) {
-        file_name = std::move(fileName);
-        file_path = std::move(filePath);
-    }
-} file_to_delete_t;
-
-typedef struct flags {
-    bool stats{};
-    bool name_flag{};
-    bool delete_flag{};
-    bool all_files{};
-    bool test_flag{};
-    bool reverse_flag;
-} flags_t;
+#include "structures.h"
 
 void collect_files(const std::string &current_dir,
                    std::vector<file_data_t> &unique_files,
@@ -77,5 +45,10 @@ void files_output(const std::vector<file_data_t> &unique_files,
 void delete_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags);
 
 std::string get_dir(int argc, char *argv[]);
+
+void find_duplicated(const std::string &dir_to_find,
+                     std::vector<file_data_t> &unique_files,
+                     std::vector<file_to_delete_t> &duplicated_files,
+                     flags_t flags);
 
 #endif //SPO_COURSEWORK_FUNCTIONS_H

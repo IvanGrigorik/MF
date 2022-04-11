@@ -258,3 +258,17 @@ void delete_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags
             break;
     }
 }
+
+void find_duplicated(const std::string &dir_to_find,
+                     std::vector<file_data_t> &unique_files,
+                     std::vector<file_to_delete_t> &duplicated_files,
+                     flags_t flags) {
+    std::cout << "Directory to find duplicate files: " << dir_to_find << std::endl << std::endl;
+
+    // Standard search
+    collect_files(dir_to_find, unique_files, duplicated_files, flags);
+    files_output(unique_files, duplicated_files, flags);
+    if (flags.delete_flag) {
+        delete_files(duplicated_files, flags);
+    }
+}
