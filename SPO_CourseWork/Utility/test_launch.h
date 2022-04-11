@@ -1,0 +1,8 @@
+//
+// Created by sifi on 11.04.2022.
+//
+
+#ifndef SPO_COURSEWORK_TEST_LAUNCH_H
+#define SPO_COURSEWORK_TEST_LAUNCH_H
+
+#endif //SPO_COURSEWORK_TEST_LAUNCH_H
