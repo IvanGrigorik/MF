@@ -1,4 +1,4 @@
 #!/bin/bash
 
-g++ -o my_app main.cpp functions.cpp -lssl -lcrypto
-./my_app /home/sifi/FTP/2022/
+g++ -o my_app test_launch.cpp main.cpp functions.cpp -lssl -lcrypto
+./my_app ../../
