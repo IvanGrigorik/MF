@@ -8,6 +8,20 @@
 int num = 0;
 unsigned long all_files_size = 0;
 
+std::string get_dir(int argc, char *argv[]) {
+    std::string dir_to_find = (argc == 1 || argv[1][0] == '-') ? "." : argv[1];
+
+    if (argc == 1 || argv[1][0] == '-') {
+        dir_to_find = argv[2];
+    } else {
+        dir_to_find = argv[1];
+    }
+    if (dir_to_find.back() == '/') {
+        dir_to_find.pop_back();
+    }
+    return dir_to_find;
+}
+
 std::string md5_to_string(unsigned char *md) {
 
     std::stringstream s_stream{};
@@ -51,6 +65,10 @@ void collect_files(const std::string &current_dir,
             continue;
         }
 
+        if (!flags.all_files && filename[0] == '.') {
+            continue;
+        }
+
         if (file->d_type == DT_DIR) {
             collect_files(current_dir + '/' + filename, unique_files, duplicated_files, flags);
             continue;
@@ -68,13 +86,21 @@ void collect_files(const std::string &current_dir,
         }
 
         file_size = get_size_by_fd(file_descript);
+        if (file_size > 1'000'000) {
+            if (flags.stats) {
+                perror(("File size error in " + filename).c_str());
+            }
+            continue;
+        }
 
         // Функция возвращает адрес начала участка отображаемой памяти или MAP_FAILED в случае неудачи.
         file_buffer = mmap(nullptr, file_size, PROT_READ, MAP_SHARED, file_descript, 0);
         if (file_buffer == MAP_FAILED) {
             close(file_descript);
             munmap(file_buffer, file_size);
-            perror("Error");
+            if (flags.stats) {
+                perror(("Mapping error in " + filename).c_str());
+            }
             continue;
         }
         MD5(reinterpret_cast <unsigned char *>(file_buffer), file_size, result);
@@ -130,7 +156,7 @@ flags_t parse_flags(int argc, char *argv[]) {
 
     int opt;
 
-    while ((opt = getopt(argc, argv, "dns")) != -1) {
+    while ((opt = getopt(argc, argv, "adnst")) != -1) {
 
         switch (opt) {
             case 'd':
@@ -143,6 +169,14 @@ flags_t parse_flags(int argc, char *argv[]) {
 
             case 's':
                 flags.stats = true;
+                break;
+
+            case 'a':
+                flags.all_files = true;
+                break;
+
+            case 't':
+                flags.test_flag = true;
                 break;
 
             default:

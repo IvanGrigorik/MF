@@ -2,9 +2,9 @@
 
 int main(int argc, char *argv[]) {
 
-
     try {
-        std::string dir_to_find = (argc == 1 || argv[1][0] == '-') ? "." : argv[1];
+        std::string dir_to_find = get_dir(argc, argv);
+
         flags_t flags;
         flags = parse_flags(argc, argv);
 
@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
             delete_files(duplicated_files, flags);
         }
     } catch (std::exception &e) {
-        std::cout << e.what();
+        std::cout << e.what() << std::endl;
     }
 
     return 0;

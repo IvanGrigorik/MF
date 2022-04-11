@@ -57,6 +57,8 @@ typedef struct flags {
     bool name_flag{};
     bool delete_flag{};
     bool all_files{};
+    bool test_flag{};
+    bool reverse_flag;
 } flags_t;
 
 void collect_files(const std::string &current_dir,
@@ -73,5 +75,7 @@ void files_output(const std::vector<file_data_t> &unique_files,
                   flags_t flags);
 
 void delete_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags);
+
+std::string get_dir(int argc, char *argv[]);
 
 #endif //SPO_COURSEWORK_FUNCTIONS_H
