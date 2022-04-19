@@ -1,0 +1,3 @@
+/home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C/cmake-build-debug/CMakeFiles/Utility_C.dir
+/home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C/cmake-build-debug/CMakeFiles/rebuild_cache.dir

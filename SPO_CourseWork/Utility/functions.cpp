@@ -42,7 +42,6 @@ void collect_files(const std::string &current_dir,
                    std::vector<file_data_t> &unique_files,
                    std::vector<file_to_delete_t> &duplicated_files,
                    flags_t flags) {
-    unsigned char result[MD5_DIGEST_LENGTH];
 
     DIR *dir = opendir((current_dir + "/").c_str());
 
@@ -93,7 +92,7 @@ void collect_files(const std::string &current_dir,
             continue;
         }
 
-        // Функция возвращает адрес начала участка отображаемой памяти или MAP_FAILED в случае неудачи.
+        // Returns the address of the beginning of the mapped memory area or MAP_FAILED if mapping failed
         file_buffer = mmap(nullptr, file_size, PROT_READ, MAP_SHARED, file_descript, 0);
         if (file_buffer == MAP_FAILED) {
             close(file_descript);
@@ -103,6 +102,7 @@ void collect_files(const std::string &current_dir,
             }
             continue;
         }
+        unsigned char result[MD5_DIGEST_LENGTH];
         MD5(reinterpret_cast <unsigned char *>(file_buffer), file_size, result);
         munmap(file_buffer, file_size);
 
@@ -230,12 +230,37 @@ void files_output(const std::vector<file_data_t> &unique_files,
 
     if (flags.stats) {
         std::cout << CYAN << std::endl
-                  << "Total unique flags: " << unique_files.size() << std::endl
+                  << "Total unique files: " << unique_files.size() << std::endl
                   << "Total duplicated files: " << duplicated_files.size() << std::endl << WHITE;
     }
 }
 
 void delete_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags) {
+
+    for (int i = 0; i < duplicated_files.size(); i++) {
+        std::cout << "[" << i << "] " << duplicated_files[i].file_name << std::endl;
+    }
+    std::cout << "Enter file number to delete (i/A/N): ";
+    int choice;
+
+    while (!duplicated_files.empty()) {
+        std::cin >> choice;
+        switch (choice) {
+            case 'A':{
+                delete_files(duplicated_files, flags);
+                std::cout << "All duplicated files removed" <<std::endl;
+                break;
+            }
+
+            case 'N':{
+                break;
+            }
+        }
+
+    }
+}
+
+void delete_all_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags) {
     std::cout << RED << "Do you really want to delete all duplicated files (Y/N)" << std::endl
               << "(it can be fatal to delete from root or home directory)" << std::endl << WHITE
               << "> ";
@@ -244,8 +269,10 @@ void delete_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags
 
     switch (choice) {
         case 'Y':
-            for (auto &i: duplicated_files)
+            for (auto &i: duplicated_files) {
                 std::remove(i.file_path.c_str());
+            }
+            duplicated_files.clear();
             break;
 
         case 'N':

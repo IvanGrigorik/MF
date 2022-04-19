@@ -38,13 +38,14 @@ unsigned long get_size_by_fd(int fd);
 
 flags_t parse_flags(int argc, char *argv[]);
 
+std::string get_dir(int argc, char *argv[]);
+
 void files_output(const std::vector<file_data_t> &unique_files,
                   const std::vector<file_to_delete_t> &duplicated_files,
                   flags_t flags);
 
 void delete_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags);
 
-std::string get_dir(int argc, char *argv[]);
 
 void find_duplicated(const std::string &dir_to_find,
                      std::vector<file_data_t> &unique_files,
