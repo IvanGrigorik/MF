@@ -7,29 +7,38 @@
 
 #include <stdbool.h>
 
+#define BLACK   "\033[30m"      /* Black */
+#define RED     "\033[31m"      /* Red */
+#define GREEN   "\033[32m"      /* Green */
+#define YELLOW  "\033[33m"      /* Yellow */
+#define BLUE    "\033[34m"      /* Blue */
+#define MAGENTA "\033[35m"      /* Magenta */
+#define CYAN    "\033[36m"      /* Cyan */
+#define WHITE   "\033[37m"      /* White */
+
 typedef struct file_data {
-    char file_name[256];
-    char file_hash[33];
-    char file_path[256];
+    char filename[256];
+    char hash[33];
+    char path[4096];
 
 //    file_data(std::string fileName, std::string fileHash) {
-//        file_name = std::move(fileName);
-//        file_hash = std::move(fileHash);
+//        filename = std::move(fileName);
+//        hash = std::move(fileHash);
 //    }
 } file_data_t;
 
 typedef struct file_struct{
     file_data_t *file_data;
     int num;
-}files;
+}files_t;
 
 /*typedef struct file_to_delete {
-    char file_name[256];
-    char file_path[256];
+    char filename[256];
+    char path[256];
 
 //    file_to_delete(std::string fileName, std::string filePath) {
-//        file_name = std::move(fileName);
-//        file_path = std::move(filePath);
+//        filename = std::move(fileName);
+//        path = std::move(filePath);
 //    }
 } file_to_delete_t;*/
 
