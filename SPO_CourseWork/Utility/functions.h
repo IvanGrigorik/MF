@@ -47,7 +47,7 @@ void files_output(const std::vector<file_data_t> &unique_files,
 void delete_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags);
 
 
-void find_duplicated(const std::string &dir_to_find,
+void find_duplicated(std::string &dir_to_find,
                      std::vector<file_data_t> &unique_files,
                      std::vector<file_to_delete_t> &duplicated_files,
                      flags_t flags);

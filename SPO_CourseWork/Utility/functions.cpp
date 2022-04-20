@@ -136,9 +136,11 @@ void collect_files(const std::string &current_dir,
                         break;
                     }
                 }
+
                 // And if we should collect only unique hash
                 duplicated_files.emplace_back(file_to_delete_t(filename, (current_dir + '/' + filename)));
                 is_in_files = true;
+                break;
             }
         }
 
@@ -246,13 +248,13 @@ void delete_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags
     while (!duplicated_files.empty()) {
         std::cin >> choice;
         switch (choice) {
-            case 'A':{
+            case 'A': {
                 delete_files(duplicated_files, flags);
-                std::cout << "All duplicated files removed" <<std::endl;
+                std::cout << "All duplicated files removed" << std::endl;
                 break;
             }
 
-            case 'N':{
+            case 'N': {
                 break;
             }
         }
@@ -286,7 +288,7 @@ void delete_all_files(std::vector<file_to_delete_t> &duplicated_files, flags_t f
     }
 }
 
-void find_duplicated(const std::string &dir_to_find,
+void find_duplicated(std::string &dir_to_find,
                      std::vector<file_data_t> &unique_files,
                      std::vector<file_to_delete_t> &duplicated_files,
                      flags_t flags) {
