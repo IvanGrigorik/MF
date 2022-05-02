@@ -4,7 +4,9 @@ project(Utility_C C)
 set(CMAKE_C_STANDARD 11)
 
 # Add openssl
-set(OPENSSL_USE_STATIC_LIBS TRUE)
+#set(OPENSSL_USE_STATIC_LIBS TRUE)
+#find_package(OpenSSL REQUIRED)
+
 find_package(OpenSSL REQUIRED)
 
 add_executable(Utility_C
@@ -15,12 +17,7 @@ add_executable(Utility_C
         src/file_work.c
         src/hashing.c
 
-        # functions headers
-        include/parse_input.h
-        include/file_work.h
-        include/hashing.h
-
         # structures
         include/structures.h)
 
-target_link_libraries(${PROJECT_NAME} OpenSSL::Crypto)
+target_link_libraries(${PROJECT_NAME} OpenSSL::SSL)

@@ -7,4 +7,5 @@ set(OPENSSL_USE_STATIC_LIBS TRUE)
 find_package(OpenSSL REQUIRED)
 
 add_executable(SPO_CourseWork main.cpp functions.cpp functions.h test_launch.h test_launch.cpp)
-target_link_libraries(${PROJECT_NAME} OpenSSL::Crypto)
+
+target_link_libraries(${PROJECT_NAME} OpenSSL::SSL)

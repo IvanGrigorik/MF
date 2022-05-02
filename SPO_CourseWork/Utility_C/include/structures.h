@@ -20,27 +20,23 @@ typedef struct file_data {
     char filename[256];
     char hash[33];
     char path[4096];
-
-//    file_data(std::string fileName, std::string fileHash) {
-//        filename = std::move(fileName);
-//        hash = std::move(fileHash);
-//    }
 } file_data_t;
 
-typedef struct file_struct{
+typedef struct file_struct {
     file_data_t *file_data;
     int num;
-}files_t;
+} files_t;
 
-/*typedef struct file_to_delete {
-    char filename[256];
-    char path[256];
+typedef struct node {
+    file_data_t file_data;
+    struct node *left;
+    struct node *right;
+} node_t;
 
-//    file_to_delete(std::string fileName, std::string filePath) {
-//        filename = std::move(fileName);
-//        path = std::move(filePath);
-//    }
-} file_to_delete_t;*/
+typedef struct list {
+    file_data_t file_data;
+    struct list *next;
+} list_t;
 
 typedef struct flags {
     bool stats;

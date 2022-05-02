@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/Utility_C.dir/main.c.o CMakeFiles/Utility_C.dir/src/parse_input.c.o CMakeFiles/Utility_C.dir/src/file_work.c.o CMakeFiles/Utility_C.dir/src/hashing.c.o -o Utility_C  /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libcrypto.so 

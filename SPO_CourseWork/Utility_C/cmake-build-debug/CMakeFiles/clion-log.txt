@@ -1,14 +1,4 @@
-/snap/clion/189/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/189/bin/ninja/linux/ninja -G Ninja -S /home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C -B /home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C/cmake-build-debug
--- Looking for pthread.h
--- Looking for pthread.h - found
--- Performing Test CMAKE_HAVE_LIBC_PTHREAD
--- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
--- Looking for pthread_create in pthreads
--- Looking for pthread_create in pthreads - not found
--- Looking for pthread_create in pthread
--- Looking for pthread_create in pthread - found
--- Found Threads: TRUE  
--- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.a (found version "1.1.1f")  
+/app/extra/clion/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C -B /home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C/cmake-build-debug
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C/cmake-build-debug

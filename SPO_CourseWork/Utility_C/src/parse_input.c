@@ -23,6 +23,11 @@ char *get_dir(int argc, char *argv[]) {
 
 flags_t parse_flags(int argc, char *argv[]) {
     flags_t flags;
+    flags.all_files = false;
+    flags.test_flag = false;
+    flags.delete_flag = false;
+    flags.name_flag = false;
+    flags.stats = false;
 
     int opt;
 
