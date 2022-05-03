@@ -22,17 +22,6 @@ typedef struct file_data {
     char path[4096];
 } file_data_t;
 
-typedef struct file_struct {
-    file_data_t *file_data;
-    int num;
-} files_t;
-
-typedef struct node {
-    file_data_t file_data;
-    struct node *left;
-    struct node *right;
-} node_t;
-
 typedef struct list {
     file_data_t file_data;
     struct list *next;

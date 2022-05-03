@@ -17,20 +17,29 @@ int main(int argc, char *argv[]) {
     char *directory = get_dir(argc, argv);
 
 
-    node_t *unique_files = (node_t *) malloc(sizeof(node_t));
-    list_t *duplicated_files = (list_t *) malloc(sizeof(list_t));
-    unique_files->left = NULL;
-    unique_files->right = NULL;
-    duplicated_files->next = NULL;
+    list_t *unique_files = NULL;
+    list_t *duplicated_files = NULL;
 
     collect_files(directory, &unique_files, &duplicated_files, flags);
-//    files_t *unique_files = (files_t *) malloc(sizeof(files_t));
-//    unique_files->num = 0;
-//    files_t *duplicated_files = (files_t *) malloc(sizeof(files_t));
-//    duplicated_files->num = 0;
-//
-//    collect_files(directory, &unique_files, &duplicated_files, flags);
-//
+    list_t *runner;
+    runner = unique_files;
+    while (1) {
+        printf(GREEN "%s\n", runner->file_data.filename);
+        if (runner->next) {
+            runner = runner->next;
+        } else {
+            break;
+        }
+    }
+    runner = duplicated_files;
+    while (1) {
+        printf(YELLOW "%s\n", runner->file_data.filename);
+        if (runner->next) {
+            runner = runner->next;
+        } else {
+            break;
+        }
+    }
 //    for (int i = 0; i < unique_files->num; i++) {
 //        printf(GREEN "File name: %s\n", unique_files->file_data[i].filename);
 //    }

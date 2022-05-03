@@ -5,6 +5,12 @@
 
 #include "../include/file_work.h"
 
+
+typedef struct comparison {
+    bool same_hash;
+    bool same_name;
+} comparison_t;
+
 // Just get file size
 unsigned long get_size_by_fd(int fd) {
     struct stat statbuf;
@@ -15,23 +21,30 @@ unsigned long get_size_by_fd(int fd) {
 }
 
 // Just allocate memory and add file attributes to the reallocated field
-void add_file_info(files_t **to_add,
+void add_file_info(list_t **to_add,
                    char *filename, char *file_path, char *hash) {
-    (*to_add)->num++;
-    (*to_add)->file_data = (file_data_t *) realloc(
-            (*to_add)->file_data,
-            (*to_add)->num * sizeof(file_data_t));
-    strcpy((*to_add)->file_data[(*to_add)->num - 1].filename,
-           filename);
-    strcpy((*to_add)->file_data[(*to_add)->num - 1].path,
-           file_path);
-    strcpy((*to_add)->file_data[(*to_add)->num - 1].hash,
-           hash);
+
+    list_t *temp, *ptr;
+    temp = (list_t *) malloc(sizeof(list_t));
+    temp->next = NULL;
+    strcpy(temp->file_data.filename, filename);
+    strcpy(temp->file_data.path, file_path);
+    strcpy(temp->file_data.hash, hash);
+
+    if ((*to_add) == NULL) {
+        *to_add = temp;
+    } else {
+        ptr = *to_add;
+        while (ptr->next != NULL) {
+            ptr = ptr->next;
+        }
+        ptr->next = temp;
+    }
 }
 
 // Function to collect unique files to the tree and duplicated files to the list
 void collect_files(const char *current_dir,
-                   node_t **unique_files,
+                   list_t **unique_files,
                    list_t **duplicated_files,
                    flags_t flags) {
 
@@ -111,17 +124,53 @@ void collect_files(const char *current_dir,
         char *hash = (char *) malloc(MD5_DIGEST_LENGTH);
         hash = md5_to_string(result);
 
-        printf("Name: %s; Hash: %s\n", filename, hash);
+        if ((*unique_files) == NULL) {
+            add_file_info(unique_files, filename, file_path, hash);
+            close(fd);
+            continue;
+        }
 
-//        if((*unique_files)->file_data);
-//        if ((*unique_files)->num == 0) {
-//            add_file_info(duplicated_files, filename, file_path, hash);
-//            close(fd);
-//            continue;
-//        }
-//
-//        bool is_in_files = false;
-//
+        bool is_in_files = false;
+        list_t *ptr = *unique_files;
+        while (true) {
+            // If file in the list and current file same
+            if (strcmp(ptr->file_data.hash, hash) == 0) {
+                // If we collect files with same extract, but different names
+                if (flags.name_flag) {
+                    // Skip, if name equals
+                    if (strcmp(ptr->file_data.filename, filename) == 0) {
+                        add_file_info(duplicated_files, filename, file_path, hash);
+                        is_in_files = true;
+                        break;
+                    } else {
+                        add_file_info(unique_files, filename, file_path, hash);
+                        break;
+                    }
+                }
+                // If we should collect only unique files (don't have '-n' flag)
+                add_file_info(duplicated_files, filename, file_path, hash);
+
+                is_in_files = true;
+                break;
+            }
+            if (ptr->next != NULL) {
+                ptr = ptr->next;
+            } else {
+                is_in_files = false;
+                break;
+            }
+        }
+
+        if (!is_in_files) {
+            add_file_info(unique_files, filename, file_path, hash);
+        }
+
+        close(fd);
+        free(hash);
+    }
+    closedir(dir);
+}
+
 //        for (int i = 0; i < (*unique_files)->num; i++) {
 //            if (strcmp((*unique_files)->file_data[i].hash, hash) == 0) {
 //
@@ -155,8 +204,9 @@ void collect_files(const char *current_dir,
 //    }
 //    closedir(dir);
 
-    }
-}
+
+
+
 
 
 // Function to collect all files_t into array
