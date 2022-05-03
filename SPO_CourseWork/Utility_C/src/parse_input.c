@@ -13,9 +13,14 @@ char *get_dir(int argc, char *argv[]) {
         dir_to_find = argv[1];
     }
 
-    if(dir_to_find[strlen(dir_to_find) - 1] == '/'){
-        dir_to_find[strlen(dir_to_find) - 1] = '\0';
+    for(int i = strlen(dir_to_find) - 1; i > 0; i--){
+        if(dir_to_find[i] == '/'){
+            dir_to_find[i] = '\0';
+        } else{
+            break;
+        }
     }
+
 
     return dir_to_find;
 }

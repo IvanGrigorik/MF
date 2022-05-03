@@ -19,9 +19,13 @@
 #include "hashing.h"
 #include "../include/structures.h"
 
-void collect_files(const char *current_dir,
-                   files_t **unique_files,
-                   files_t **duplicated_files,
-                   flags_t flags);
+//void collect_files(const char *current_dir,
+//                   files_t **unique_files,
+//                   files_t **duplicated_files,
+//                   flags_t flags);
 
+void collect_files(const char *current_dir,
+                   node_t **unique_files,
+                   list_t **duplicated_files,
+                   flags_t flags);
 #endif //UTILITY_C_FILE_WORK_H
