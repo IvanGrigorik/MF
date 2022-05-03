@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
-project(Utility_C C)
+project(C C)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 17)
 
 # Add openssl
 #set(OPENSSL_USE_STATIC_LIBS TRUE)
@@ -9,8 +9,7 @@ set(CMAKE_C_STANDARD 11)
 
 find_package(OpenSSL REQUIRED)
 
-add_executable(Utility_C
-        main.c
+add_executable(C main.c
 
         # src-s
         src/parse_input.c

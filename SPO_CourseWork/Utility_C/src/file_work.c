@@ -113,7 +113,7 @@ void collect_files(const char *current_dir,
 
         printf("Name: %s; Hash: %s\n", filename, hash);
 
-        if((*unique_files)->file_data);
+//        if((*unique_files)->file_data);
 //        if ((*unique_files)->num == 0) {
 //            add_file_info(duplicated_files, filename, file_path, hash);
 //            close(fd);
@@ -156,6 +156,7 @@ void collect_files(const char *current_dir,
 //    closedir(dir);
 
     }
+}
 
 
 // Function to collect all files_t into array
