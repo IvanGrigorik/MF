@@ -33,12 +33,10 @@ void add_file_info(list_t **to_add,
 
     if ((*to_add) == NULL) {
         *to_add = temp;
+        (*to_add)->tail = (*to_add);
     } else {
-        ptr = *to_add;
-        while (ptr->next != NULL) {
-            ptr = ptr->next;
-        }
-        ptr->next = temp;
+        (*to_add)->tail->next = temp;
+        (*to_add)->tail = (*to_add)->tail->next;
     }
 }
 
@@ -128,6 +126,7 @@ void collect_files(const char *current_dir,
             add_file_info(unique_files, filename, file_path, hash);
             close(fd);
             continue;
+
         }
 
         bool is_in_files = false;

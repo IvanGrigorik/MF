@@ -25,6 +25,7 @@ typedef struct file_data {
 typedef struct list {
     file_data_t file_data;
     struct list *next;
+    struct list *tail;
 } list_t;
 
 typedef struct flags {
