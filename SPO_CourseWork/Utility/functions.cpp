@@ -72,19 +72,18 @@ void collect_files(const std::string &current_dir,
             collect_files(current_dir + '/' + filename, unique_files, duplicated_files, flags);
             continue;
         }
-        // If it not directory:
 
-        int file_descript;
+        // If it not directory:
+        int fd;
         unsigned long file_size;
         void *file_buffer;
 
-        file_descript = open((current_dir + '/' + filename).c_str(), O_RDONLY);
-
-        if (file_descript < 0) {
+        if ((fd = open((current_dir + '/' + filename).c_str(),
+                       O_RDONLY)) < 0) {
             continue;
         }
 
-        file_size = get_size_by_fd(file_descript);
+        file_size = get_size_by_fd(fd);
         if (file_size > 1'000'000) {
             if (flags.stats) {
                 perror(("File size error in " + filename).c_str());
@@ -93,9 +92,9 @@ void collect_files(const std::string &current_dir,
         }
 
         // Returns the address of the beginning of the mapped memory area or MAP_FAILED if mapping failed
-        file_buffer = mmap(nullptr, file_size, PROT_READ, MAP_SHARED, file_descript, 0);
+        file_buffer = mmap(nullptr, file_size, PROT_READ, MAP_SHARED, fd, 0);
         if (file_buffer == MAP_FAILED) {
-            close(file_descript);
+            close(fd);
             munmap(file_buffer, file_size);
             if (flags.stats) {
                 perror(("Mapping error in " + filename).c_str());
@@ -112,7 +111,7 @@ void collect_files(const std::string &current_dir,
             all_files_size += file_size;
             std::cout << "All files size: " << all_files_size << std::endl;
             std::cout << ++num << std::endl;
-            std::cout << "File descript: " << file_descript << std::endl;
+            std::cout << "File descript: " << fd << std::endl;
         }
 
         if (unique_files.empty()) {
@@ -148,7 +147,7 @@ void collect_files(const std::string &current_dir,
             unique_files.emplace_back(filename, hash);
         }
 
-        close(file_descript);
+        close(fd);
     }
     closedir(dir);
 }

@@ -1,0 +1,4 @@
+/app/extra/clion/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=/app/extra/clion/bin/ninja/linux/ninja -G Ninja -S /home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C -B /home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C/cmake-build-release
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C/cmake-build-release

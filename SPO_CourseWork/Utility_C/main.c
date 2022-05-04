@@ -20,29 +20,6 @@ int main(int argc, char *argv[]) {
     list_t *duplicated_files = NULL;
 
     collect_files(directory, &unique_files, &duplicated_files, flags);
-    list_t *runner;
-    runner = unique_files;
 
-    if (unique_files != NULL) {
-        while (1) {
-            printf(GREEN "%s\n", runner->file_data.filename);
-            if (runner->next) {
-                runner = runner->next;
-            } else {
-                break;
-            }
-        }
-    }
-
-    if (duplicated_files != NULL) {
-        runner = duplicated_files;
-        while (1) {
-            printf(YELLOW "%s\n", runner->file_data.filename);
-            if (runner->next) {
-                runner = runner->next;
-            } else {
-                break;
-            }
-        }
-    }
+    output_statistic(unique_files, duplicated_files, flags);
 }
