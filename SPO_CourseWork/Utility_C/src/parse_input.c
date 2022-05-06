@@ -2,7 +2,7 @@
 // Created by sifi on 17.04.22.
 //
 
-#include "../include/parse_input.h"
+#include "../headers/parse_input.h"
 
 char *get_dir(int argc, char *argv[]) {
     char *dir_to_find = (argc == 1 || argv[1][0] == '-') ? "." : argv[1];

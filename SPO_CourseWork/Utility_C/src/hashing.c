@@ -2,7 +2,7 @@
 // Created by sifi on 18.04.22.
 //
 
-#include "../include/hashing.h"
+#include "../headers/hashing.h"
 
 char *md5_to_string(unsigned char *md) {
 

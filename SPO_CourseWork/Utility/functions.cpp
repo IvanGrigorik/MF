@@ -236,32 +236,7 @@ void files_output(const std::vector<file_data_t> &unique_files,
     }
 }
 
-void delete_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags) {
-
-    for (int i = 0; i < duplicated_files.size(); i++) {
-        std::cout << "[" << i << "] " << duplicated_files[i].file_name << std::endl;
-    }
-    std::cout << "Enter file number to delete (i/A/N): ";
-    int choice;
-
-    while (!duplicated_files.empty()) {
-        std::cin >> choice;
-        switch (choice) {
-            case 'A': {
-                delete_files(duplicated_files, flags);
-                std::cout << "All duplicated files removed" << std::endl;
-                break;
-            }
-
-            case 'N': {
-                break;
-            }
-        }
-
-    }
-}
-
-void delete_all_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags) {
+void delete_all_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags){
     std::cout << RED << "Do you really want to delete all duplicated files (Y/N)" << std::endl
               << "(it can be fatal to delete from root or home directory)" << std::endl << WHITE
               << "> ";
@@ -284,6 +259,31 @@ void delete_all_files(std::vector<file_to_delete_t> &duplicated_files, flags_t f
 
         default:
             break;
+    }
+}
+
+void delete_files(std::vector<file_to_delete_t> &duplicated_files, flags_t flags) {
+
+    for (int i = 0; i < duplicated_files.size(); i++) {
+        std::cout << "[" << i << "] " << duplicated_files[i].file_name << std::endl;
+    }
+    std::cout << "Enter file number to delete (i/A/N): ";
+    int choice;
+
+    while (!duplicated_files.empty()) {
+        std::cin >> choice;
+        switch (choice) {
+            case 'A': {
+                delete_all_files(duplicated_files, flags);
+                std::cout << "All duplicated files removed" << std::endl;
+                break;
+            }
+
+            case 'N': {
+                break;
+            }
+        }
+
     }
 }
 

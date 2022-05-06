@@ -73,6 +73,12 @@ build CMakeFiles/C.dir/src/hashing.c.o: C_COMPILER__C_Release /home/sifi/BSUIR/M
   OBJECT_DIR = CMakeFiles/C.dir
   OBJECT_FILE_DIR = CMakeFiles/C.dir/src
 
+build CMakeFiles/C.dir/src/testing.c.o: C_COMPILER__C_Release /home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C/src/testing.c || cmake_object_order_depends_target_C
+  DEP_FILE = CMakeFiles/C.dir/src/testing.c.o.d
+  FLAGS = -O0 -O3 -DNDEBUG
+  OBJECT_DIR = CMakeFiles/C.dir
+  OBJECT_FILE_DIR = CMakeFiles/C.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target C
@@ -81,7 +87,7 @@ build CMakeFiles/C.dir/src/hashing.c.o: C_COMPILER__C_Release /home/sifi/BSUIR/M
 #############################################
 # Link the executable C
 
-build C: C_EXECUTABLE_LINKER__C_Release CMakeFiles/C.dir/main.c.o CMakeFiles/C.dir/src/parse_input.c.o CMakeFiles/C.dir/src/file_work.c.o CMakeFiles/C.dir/src/hashing.c.o | /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libcrypto.so
+build C: C_EXECUTABLE_LINKER__C_Release CMakeFiles/C.dir/main.c.o CMakeFiles/C.dir/src/parse_input.c.o CMakeFiles/C.dir/src/file_work.c.o CMakeFiles/C.dir/src/hashing.c.o CMakeFiles/C.dir/src/testing.c.o | /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libcrypto.so
   FLAGS = -O0 -O3 -DNDEBUG
   LINK_LIBRARIES = /usr/lib/x86_64-linux-gnu/libssl.so  /usr/lib/x86_64-linux-gnu/libcrypto.so
   OBJECT_DIR = CMakeFiles/C.dir

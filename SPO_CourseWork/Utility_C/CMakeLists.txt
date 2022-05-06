@@ -14,6 +14,6 @@ add_executable(C main.c
         # src-s
         src/parse_input.c
         src/file_work.c
-        src/hashing.c)
+        src/hashing.c headers/testing.h src/testing.c)
 
 target_link_libraries(${PROJECT_NAME} OpenSSL::SSL)
