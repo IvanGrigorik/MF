@@ -1,6 +1,0 @@
-# ninja log v5
-0	21	1651684998134502171	CMakeFiles/C.dir/src/hashing.c.o	99a3076ea00a52d
-68	100	1651759415565244423	C	9bccb0f8e4c86ca
-0	68	1651759415537244440	CMakeFiles/C.dir/src/file_work.c.o	c8b9d9d467e40341
-0	27	1651684998142501674	CMakeFiles/C.dir/src/parse_input.c.o	c697794c0c83d951
-0	29	1651758268817940142	CMakeFiles/C.dir/main.c.o	79e6262cfde33456
