@@ -27,4 +27,5 @@ int main(int argc, char *argv[]) {
     if(flags.delete_flag){
         delete_files(&duplicated_files);
     }
+
 }
