@@ -253,29 +253,28 @@ void delete_all_files(list_t *duplicated_files) {
     }
 }
 
-
 void delete_file(list_t **duplicated_files, int choice) {
-    if (choice == 1) {
+    list_t *temp = *duplicated_files, *prev;
+
+    if (temp != NULL && choice == 1) {
         remove((*duplicated_files)->file_data.path);
-        list_t *temp = *duplicated_files;
-        *duplicated_files = (*duplicated_files)->next;
+        *duplicated_files = temp->next;
         free(temp);
         return;
     }
 
-    int num = 0;
-    list_t *temp = *duplicated_files;
-    while (temp != NULL) {
-        num++;
-        if ((num + 1) == choice) {
-            list_t *to_free = temp;
-            remove(temp->next->file_data.path);
-            *temp->next = *temp->next->next;
-            free(to_free);
-        }
-
+    for (int i = 1; i != choice; i++) {
+        prev = temp;
         temp = temp->next;
     }
+
+    if(temp == NULL){
+        return;
+    }
+
+    remove(temp->file_data.path);
+    prev->next = temp->next;
+    free(temp);
 }
 
 void delete_files(list_t **duplicated_files) {

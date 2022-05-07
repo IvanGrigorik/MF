@@ -35,6 +35,7 @@
 # Ignore any folder
 *.idea/
 *cmake-build-debug/
+*cmake-build-release/
 # Except labs and src folders
 *.out
 *.log
