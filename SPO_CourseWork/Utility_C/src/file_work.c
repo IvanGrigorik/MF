@@ -276,35 +276,6 @@ void delete_file(list_t **duplicated_files, int choice) {
     prev->next = temp->next;
     free(temp);
 }
-//void delete_file(list_t **duplicated_files, int choice) {
-//    if (choice == 1) {
-//        remove((*duplicated_files)->file_data.path);
-//        list_t *temp = *duplicated_files;
-//        *duplicated_files = (*duplicated_files)->next;
-//        free(temp);
-//        return;
-//    }
-//
-//    int num = 0;
-//    list_t *temp = *duplicated_files;
-//    while (temp != NULL) {
-//        num++;
-//        if (num == choice) {
-//            list_t *to_free = temp;
-//            remove(temp->file_data.path);
-//            if (temp->next != NULL) {
-//                *temp->next = *temp->next->next;
-//            } else {
-//                free(temp);
-//                temp = NULL;
-//            }
-//            free(to_free);
-//            break;
-//        }
-//
-//        temp = temp->next;
-//    }
-//}
 
 void delete_files(list_t **duplicated_files) {
     printf(CYAN "\nEnter - go to the deletion process\n(the screen will be cleared)\n>>");
