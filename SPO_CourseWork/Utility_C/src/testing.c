@@ -24,13 +24,13 @@ void generate_files() {
 
     printf("Creating new files... \n");
 
-    char file_name[FILENAME_MAX] = "/home/sifi/BSUIR/MF/SPO_CourseWork/Utility_C/files/file";
+    char file_name[FILENAME_MAX] = "../files/file";
     char content[4];
 
     FILE *fp;
 
     for (int i = 0; i < 9; i++) {
-        file_name[55] = (char) (i + 48);
+        file_name[13] = (char) (i + 48);
 
         fp = fopen(file_name, "w");
 
