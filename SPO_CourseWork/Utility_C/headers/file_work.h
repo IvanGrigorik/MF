@@ -19,25 +19,29 @@
 #include "hashing.h"
 #include "structures.h"
 
-
+// Functions to collect all duplicated and unique files
 void find_duplicated(const char *current_dir,
                      list_t **unique_files,
                      list_t **duplicated_files,
                      list_t **error_files,
                      flags_t flags);
 
-void output_statistic(list_t *unique_files,
-                      list_t *duplicated_files,
-                      list_t *error_files,
-                      flags_t flags);
-
 void check_duplicated(char *filename, char *file_path, char *hash,
                       list_t **unique_files,
                       list_t **duplicated_files,
                       flags_t flags);
 
-void delete_files(list_t **duplicated_files);
+// Simple statistic output
+void output_statistic(list_t *unique_files,
+                      list_t *duplicated_files,
+                      list_t *error_files,
+                      flags_t flags);
 
-int get_int(int min_size, int max_size);
+// Functions to delete process
+void delete_file(list_t **duplicated_files, int choice);
+
+void delete_all_files(list_t *duplicated_files);
+
+void delete_process(list_t **duplicated_files);
 
 #endif //UTILITY_C_FILE_WORK_H

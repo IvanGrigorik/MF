@@ -13,31 +13,38 @@ char *get_dir(int argc, char *argv[]) {
         dir_to_find = argv[1];
     }
 
-    for(int i = strlen(dir_to_find) - 1; i > 0; i--){
-        if(dir_to_find[i] == '/'){
+    for (int i = (int) strlen(dir_to_find) - 1; i > 0; i--) {
+        if (dir_to_find[i] == '/') {
             dir_to_find[i] = '\0';
-        } else{
+        } else {
             break;
         }
     }
-
+    if (strcmp(dir_to_find, "~") == 0 || strcmp(dir_to_find, "/") == 0) {
+        strcpy(dir_to_find, "/home/");
+        strcat(dir_to_find, getlogin());
+    }
 
     return dir_to_find;
 }
 
+void init_flags(flags_t *flags) {
+
+    flags->all_files = false;
+    flags->test_flag = false;
+    flags->delete_flag = false;
+    flags->name_flag = false;
+    flags->stats = false;
+    flags->help_flag = false;
+}
 
 flags_t parse_flags(int argc, char *argv[]) {
     flags_t flags;
-    flags.all_files = false;
-    flags.test_flag = false;
-    flags.delete_flag = false;
-    flags.name_flag = false;
-    flags.stats = false;
 
+    init_flags(&flags);
     int opt;
 
-    while ((opt = getopt(argc, argv, "adnst")) != -1) {
-
+    while ((opt = getopt(argc, argv, "adhnst")) != -1) {
         switch (opt) {
             case 'd':
                 flags.delete_flag = true;
@@ -57,6 +64,10 @@ flags_t parse_flags(int argc, char *argv[]) {
 
             case 't':
                 flags.test_flag = true;
+                break;
+
+            case 'h':
+                flags.help_flag = true;
                 break;
 
             default:

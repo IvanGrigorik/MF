@@ -34,6 +34,7 @@ typedef struct flags {
     bool delete_flag;
     bool all_files;
     bool test_flag;
+    bool help_flag;
 } flags_t;
 
 #endif //UTILITY_C_STRUCTURES_H

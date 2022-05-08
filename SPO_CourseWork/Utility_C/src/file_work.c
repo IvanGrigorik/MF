@@ -2,13 +2,13 @@
 // Created by sifi on 18.04.22.
 //
 
-
 #include "../headers/file_work.h"
 
 #define GB 1000000
 
 // Get file size by it descriptor
 unsigned long get_size_by_fd(int fd) {
+
     struct stat statbuf;
     if (fstat(fd, &statbuf) < 0) {
         exit(-1);
@@ -42,6 +42,7 @@ void find_duplicated(const char *current_dir,
                      list_t **duplicated_files,
                      list_t **error_files,
                      flags_t flags) {
+
     char dir_name[PATH_MAX];
     DIR *dir = opendir(strcat(strcpy(dir_name, current_dir), "/"));
 
@@ -126,6 +127,7 @@ void check_duplicated(char *filename, char *file_path, char *hash,
                       list_t **unique_files,
                       list_t **duplicated_files,
                       flags_t flags) {
+
     if ((*unique_files) == NULL) {
         add_file_info(unique_files, filename, file_path, hash);
         return;
@@ -230,8 +232,8 @@ void output_statistic(list_t *unique_files,
     printf(WHITE);
 }
 
-
 void delete_all_files(list_t *duplicated_files) {
+
     printf(RED);
     printf("Do you really want to delete all duplicated files (Y/N)" WHITE "\n");
     printf("(it can be fatal to delete duplicated files from root or home directory)\n");
@@ -254,6 +256,7 @@ void delete_all_files(list_t *duplicated_files) {
 }
 
 void delete_file(list_t **duplicated_files, int choice) {
+
     list_t *temp = *duplicated_files, *prev;
 
     if (temp != NULL && choice == 1) {
@@ -268,7 +271,7 @@ void delete_file(list_t **duplicated_files, int choice) {
         temp = temp->next;
     }
 
-    if(temp == NULL){
+    if (temp == NULL) {
         return;
     }
 
@@ -277,7 +280,8 @@ void delete_file(list_t **duplicated_files, int choice) {
     free(temp);
 }
 
-void delete_files(list_t **duplicated_files) {
+void delete_process(list_t **duplicated_files) {
+
     printf(CYAN "\nEnter - go to the deletion process\n(the screen will be cleared)\n>>");
     getchar();
     system("clear");
@@ -287,7 +291,7 @@ void delete_files(list_t **duplicated_files) {
         printf(RED "Warn in delete flag: No duplicated files" WHITE "\n");
         return;
     } else {
-
+        int choice;
         while (true) {
             list_t *ptr = *duplicated_files;
             if (ptr == NULL) {
@@ -301,10 +305,7 @@ void delete_files(list_t **duplicated_files) {
                 ptr = ptr->next;
             }
 
-
-            printf(GREEN "\nEnter file number to delete (enter 0 to delete all)\n>>" WHITE "\n");
-
-            int choice;
+            printf(GREEN "\nEnter file number to delete (enter 0 to delete all)\n>> " WHITE);
             scanf("%d", &choice);
 
             if (choice > total_duplicate) {
