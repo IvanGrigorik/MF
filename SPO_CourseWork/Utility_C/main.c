@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[]) {
     // Check to input data
-    if(argc < 3){
+    if (argc < 2) {
         output_help();
         return 0;
     }
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     find_duplicated(directory, &unique_files, &duplicated_files, &error_files, flags);
     output_statistic(unique_files, duplicated_files, error_files, flags);
 
-    if(flags.delete_flag){
+    if (flags.delete_flag) {
         delete_process(&duplicated_files);
     }
 

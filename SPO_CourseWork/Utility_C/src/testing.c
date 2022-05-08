@@ -91,7 +91,8 @@ void test_duplicated() {
     output_statistic(unique_files, duplicated_files, error_files, flags);
 
     printf(MAGENTA "\n\nDelete 1st file \n" WHITE);
-
+    delete_file(&duplicated_files, 1);
+    output_statistic(unique_files, duplicated_files, error_files, flags);
 
     clear_lists(&unique_files, &duplicated_files, &error_files);
 }

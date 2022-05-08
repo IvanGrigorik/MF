@@ -306,10 +306,12 @@ void delete_process(list_t **duplicated_files) {
             }
 
             printf(GREEN "\nEnter file number to delete (enter 0 to delete all)\n>> " WHITE);
-            scanf("%d", &choice);
+            int val = scanf("%d", &choice);
 
             if (choice > total_duplicate) {
                 printf("Invalid choice\n");
+                return;
+            } else if (val == 0) {
                 return;
             } else if (choice == 0) {
                 delete_all_files(*duplicated_files);

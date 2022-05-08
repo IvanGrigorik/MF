@@ -27,11 +27,11 @@ void output_help() {
     printf("  -n    Collect files with same content, but different names\n");
     printf("  -a    Collect hidden files (starting with \".\")\n");
     printf("\n Other processes: \n");
-    printf("  -d     Delete duplicated files with selection\n");
-    printf("  -t     Test all program modules\n");
+    printf("  -d    Delete duplicated files with selection\n");
+    printf("  -t    Test all program modules\n");
     printf("\n Other information: \n");
-    printf("         Program launching from the root directory is redirected to the\n");
-    printf("         home directory for system integrity\n");
+    printf("        Program launching from the root directory is redirected to the\n");
+    printf("        home directory for system integrity\n");
     printf("\nReports bugs to givan502@gmail.com\n");
     exit(EXIT_SUCCESS);
 }
