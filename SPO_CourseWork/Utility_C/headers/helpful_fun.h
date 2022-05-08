@@ -10,7 +10,7 @@
 #include "../headers/file_work.h"
 #include "../headers/testing.h"
 
-void check_flags();
+void check_flags(flags_t flags);
 
 void output_help();
 

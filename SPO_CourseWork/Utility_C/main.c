@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
     flags_t flags = parse_flags(argc, argv);
 
     // If program run with -t or -h flag
-    check_flags();
+    check_flags(flags);
 
     // Get directory to work and create new lists to collect files info
     char *directory = get_dir(argc, argv);
