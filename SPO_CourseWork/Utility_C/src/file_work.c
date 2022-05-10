@@ -189,7 +189,7 @@ void output_statistic(list_t *unique_files,
         printf(RED "No unique files" WHITE "\n");
     } else {
         list_t *ptr = unique_files;
-        printf(GREEN "\n");
+        printf(GREEN "\nUnique files list: \n");
         while (ptr != NULL) {
             ++total_unique;
             printf("File path: %s\n", ptr->file_data.path);
@@ -202,7 +202,7 @@ void output_statistic(list_t *unique_files,
         printf(RED "No duplicated files" WHITE "\n");
     } else {
         list_t *ptr = duplicated_files;
-        printf(YELLOW "\n");
+        printf(YELLOW "\nDuplicated files list: \n");
         while (ptr != NULL) {
             ++total_duplicate;
             printf("File path: %s\n", ptr->file_data.path);
@@ -216,7 +216,7 @@ void output_statistic(list_t *unique_files,
         } else {
             int total_error = 0;
             list_t *ptr = error_files;
-            printf(RED "\n");
+            printf(RED "\nFiles with errors list: \n");
             while (ptr != NULL) {
                 ++total_error;
                 printf("File path: %s\n", ptr->file_data.path);
