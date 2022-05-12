@@ -36,15 +36,16 @@ void init_flags(flags_t *flags) {
     flags->name_flag = false;
     flags->stats = false;
     flags->help_flag = false;
+    flags->recursive_flag = false;
 }
 
 flags_t parse_flags(int argc, char *argv[]) {
-    flags_t flags;
 
+    flags_t flags;
     init_flags(&flags);
     int opt;
 
-    while ((opt = getopt(argc, argv, "adhnst")) != -1) {
+    while ((opt = getopt(argc, argv, "adhnstr")) != -1) {
         switch (opt) {
             case 'd':
                 flags.delete_flag = true;
@@ -68,6 +69,10 @@ flags_t parse_flags(int argc, char *argv[]) {
 
             case 'h':
                 flags.help_flag = true;
+                break;
+
+            case 'r':
+                flags.recursive_flag = true;
                 break;
 
             default:

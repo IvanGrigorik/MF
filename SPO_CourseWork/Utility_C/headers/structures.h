@@ -35,6 +35,7 @@ typedef struct flags {
     bool all_files;
     bool test_flag;
     bool help_flag;
+    bool recursive_flag;
 } flags_t;
 
 #endif //UTILITY_C_STRUCTURES_H

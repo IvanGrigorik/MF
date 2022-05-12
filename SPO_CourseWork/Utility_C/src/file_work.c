@@ -72,7 +72,7 @@ void find_duplicated(const char *current_dir,
 
         char file_path[PATH_MAX];
         sprintf(file_path, "%s%s", dir_name, filename);
-        if (file->d_type == DT_DIR) {
+        if (file->d_type == DT_DIR && !flags.recursive_flag) {
             find_duplicated(file_path, unique_files, duplicated_files, error_files, flags);
             continue;
         }
