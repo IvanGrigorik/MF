@@ -36,6 +36,7 @@ typedef struct flags {
     bool test_flag;
     bool help_flag;
     bool recursive_flag;
+    bool executable_flag;
 } flags_t;
 
 #endif //UTILITY_C_STRUCTURES_H

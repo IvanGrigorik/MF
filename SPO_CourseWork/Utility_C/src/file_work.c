@@ -6,16 +6,6 @@
 
 #define GB 1000000
 
-// Get file size by it descriptor
-unsigned long get_size_by_fd(int fd) {
-
-    struct stat statbuf;
-    if (fstat(fd, &statbuf) < 0) {
-        exit(-1);
-    }
-    return statbuf.st_size;
-}
-
 // Just allocate memory and add file attributes
 void add_file_info(list_t **to_add,
                    char *filename, char *file_path, char *hash) {
@@ -79,40 +69,42 @@ void find_duplicated(const char *current_dir,
 
         // If it's simple file
         int fd;
-        size_t file_size;
         void *file_buffer;
 
         if ((fd = open(file_path, O_RDONLY)) < 0) {
             close(fd);
             continue;
         }
+        struct stat statbuf;
+        fstat(fd, &statbuf);
 
-        file_size = get_size_by_fd(fd);
-        if (file_size > GB) {
-            // If the file size is more than 1 GB - we cannot map it in virtual addresses
-            if (flags.stats) {
-                add_file_info(error_files, filename, file_path, "Size error");
-                perror("File size error in ");
+//        if (statbuf.st_mode == S_IXGRP || statbuf.st_mode & S_IXGRP || statbuf.st_mode & S_IXGRP)
+
+            if (statbuf.st_size > GB) {
+                // If the file size is more than 1 GB - we cannot map it in virtual addresses
+                if (flags.stats) {
+                    add_file_info(error_files, filename, file_path, "Size error");
+                    printf("File %s is too large\n", file->d_name);
+                }
+                close(fd);
+                continue;
             }
-            close(fd);
-            continue;
-        }
 
-        file_buffer = mmap(NULL, file_size, PROT_READ, MAP_SHARED, fd, 0);
+        file_buffer = mmap(NULL, statbuf.st_size, PROT_READ, MAP_SHARED, fd, 0);
         close(fd);
         if (file_buffer == MAP_FAILED) {
-            munmap(file_buffer, file_size);
+            munmap(file_buffer, statbuf.st_size);
             if (flags.stats) {
                 add_file_info(error_files, filename, file_path, "Mmap error");
                 perror("Mapping error");
-
             }
             continue;
         }
 
+
         unsigned char result[MD5_DIGEST_LENGTH];
-        MD5((unsigned char *) (file_buffer), file_size, result);
-        munmap(file_buffer, file_size);
+        MD5((unsigned char *) (file_buffer), statbuf.st_size, result);
+        munmap(file_buffer, statbuf.st_size);
 
         char *hash = md5_to_string(result);
 
@@ -239,7 +231,7 @@ void delete_all_files(list_t *duplicated_files) {
     printf("(it can be fatal to delete duplicated files from root or home directory)\n");
     printf("> ");
 
-    char c;
+    int c;
     while ((c = getchar()) != '\n' && c != EOF) {}
 
     char choice;
