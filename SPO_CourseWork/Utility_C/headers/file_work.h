@@ -37,7 +37,7 @@ void output_statistic(list_t *unique_files,
                       list_t *error_files,
                       flags_t flags);
 
-void check_by_name(char *filename, char *file_path, int file_type,
+void check_by_name(char *filename, char *file_path, int file_type, int type,
                    list_t **unique_files,
                    list_t **duplicated_files);
 

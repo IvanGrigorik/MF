@@ -72,7 +72,7 @@ void find_duplicated(const char *current_dir,
 
         int file_type = file->d_type;
         if (file_type != 8 && flags.type_flag) {
-            check_by_name(filename, file_path, file_type, unique_files, duplicated_files);
+            check_by_name(filename, file_path, file_type, file_type, unique_files, duplicated_files);
             continue;
         } else if (file_type != 8) {
             continue;
@@ -128,7 +128,7 @@ void find_duplicated(const char *current_dir,
     closedir(dir);
 }
 
-void check_by_name(char *filename, char *file_path, int file_type,
+void check_by_name(char *filename, char *file_path, int file_type, int type,
                    list_t **unique_files,
                    list_t **duplicated_files) {
 
@@ -142,7 +142,8 @@ void check_by_name(char *filename, char *file_path, int file_type,
     while (true) {
         // If file in the list and current file same
         if (strcmp(ptr->file_data.hash, "XFLAG") == 0 &&
-            strcmp(ptr->file_data.filename, filename) == 0) {
+            strcmp(ptr->file_data.filename, filename) == 0 &&
+            ptr->file_data.type == file_type) {
             is_in_files = true;
             add_file_info(duplicated_files, filename, file_path, "XFLAG", file_type);
             break;
