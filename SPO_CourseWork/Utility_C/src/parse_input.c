@@ -5,8 +5,9 @@
 #include "../headers/parse_input.h"
 
 char *get_dir(int argc, char *argv[]) {
-    char *dir_to_find = (argc == 1 || argv[1][0] == '-') ? "." : argv[1];
 
+    char *dir_to_find = (argc == 1 || argv[1][0] == '-') ? "." : argv[1];
+    char dir[FILENAME_MAX];
     if (argc == 1 || argv[1][0] == '-') {
         dir_to_find = argv[2];
     } else {
@@ -20,9 +21,13 @@ char *get_dir(int argc, char *argv[]) {
             break;
         }
     }
-    if (strcmp(dir_to_find, "~") == 0 || strcmp(dir_to_find, "/") == 0) {
+    if (dir_to_find[0] == '~') {
+        char *_skip_sym = dir_to_find + 1;
+        strcpy(dir, _skip_sym);
         strcpy(dir_to_find, "/home/");
         strcat(dir_to_find, getlogin());
+
+        strcat(dir_to_find, dir);
     }
 
     return dir_to_find;
@@ -37,7 +42,7 @@ void init_flags(flags_t *flags) {
     flags->stats = false;
     flags->help_flag = false;
     flags->recursive_flag = false;
-    flags->executable_flag = false;
+    flags->type_flag = false;
 }
 
 flags_t parse_flags(int argc, char *argv[]) {
@@ -74,6 +79,10 @@ flags_t parse_flags(int argc, char *argv[]) {
 
             case 'r':
                 flags.recursive_flag = true;
+                break;
+
+            case 'x':
+                flags.type_flag = true;
                 break;
 
             default:

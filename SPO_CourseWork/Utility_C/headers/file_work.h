@@ -26,7 +26,7 @@ void find_duplicated(const char *current_dir,
                      list_t **error_files,
                      flags_t flags);
 
-void check_duplicated(char *filename, char *file_path, char *hash,
+void check_duplicated(char *filename, char *file_path, char *hash, int file_type,
                       list_t **unique_files,
                       list_t **duplicated_files,
                       flags_t flags);
@@ -36,6 +36,10 @@ void output_statistic(list_t *unique_files,
                       list_t *duplicated_files,
                       list_t *error_files,
                       flags_t flags);
+
+void check_by_name(char *filename, char *file_path, int file_type,
+                   list_t **unique_files,
+                   list_t **duplicated_files);
 
 // Functions to delete process
 void delete_file(list_t **duplicated_files, int choice);

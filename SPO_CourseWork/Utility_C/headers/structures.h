@@ -20,6 +20,7 @@ typedef struct file_data {
     char filename[256];
     char hash[33];
     char path[4096];
+    int type;
 } file_data_t;
 
 typedef struct list {
@@ -36,7 +37,7 @@ typedef struct flags {
     bool test_flag;
     bool help_flag;
     bool recursive_flag;
-    bool executable_flag;
+    bool type_flag;
 } flags_t;
 
 #endif //UTILITY_C_STRUCTURES_H

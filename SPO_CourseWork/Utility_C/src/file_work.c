@@ -4,11 +4,11 @@
 
 #include "../headers/file_work.h"
 
-#define GB 1000000
+#define GB 1000000000
 
 // Just allocate memory and add file attributes
 void add_file_info(list_t **to_add,
-                   char *filename, char *file_path, char *hash) {
+                   char *filename, char *file_path, char *hash, int file_type) {
 
     list_t *temp;
     temp = (list_t *) malloc(sizeof(list_t));
@@ -16,6 +16,7 @@ void add_file_info(list_t **to_add,
     strcpy(temp->file_data.filename, filename);
     strcpy(temp->file_data.path, file_path);
     strcpy(temp->file_data.hash, hash);
+    temp->file_data.type = file_type;
 
     if ((*to_add) == NULL) {
         *to_add = temp;
@@ -65,11 +66,22 @@ void find_duplicated(const char *current_dir,
         if (file->d_type == DT_DIR && !flags.recursive_flag) {
             find_duplicated(file_path, unique_files, duplicated_files, error_files, flags);
             continue;
+        } else if (file->d_type == DT_DIR && flags.recursive_flag) {
+            continue;
+        }
+
+        int file_type = file->d_type;
+        if (file_type != 8 && flags.type_flag) {
+            check_by_name(filename, file_path, file_type, unique_files, duplicated_files);
+            continue;
+        } else if (file_type != 8) {
+            continue;
         }
 
         // If it's simple file
         int fd;
         void *file_buffer;
+
 
         if ((fd = open(file_path, O_RDONLY)) < 0) {
             close(fd);
@@ -78,29 +90,30 @@ void find_duplicated(const char *current_dir,
         struct stat statbuf;
         fstat(fd, &statbuf);
 
-//        if (statbuf.st_mode == S_IXGRP || statbuf.st_mode & S_IXGRP || statbuf.st_mode & S_IXGRP)
-
-            if (statbuf.st_size > GB) {
-                // If the file size is more than 1 GB - we cannot map it in virtual addresses
-                if (flags.stats) {
-                    add_file_info(error_files, filename, file_path, "Size error");
-                    printf("File %s is too large\n", file->d_name);
-                }
-                close(fd);
-                continue;
+        if (statbuf.st_size > GB) {
+            // If the file size is more than 1 GB - we cannot map it in virtual addresses
+            if (flags.stats) {
+                add_file_info(error_files, filename, file_path, "Size error", file_type);
+                printf("File %s is too large\n", file->d_name);
             }
+            close(fd);
+            continue;
+        }
+        if (flags.stats) {
+            printf("File name %s\n", filename);
+            printf("File size: %ld\n", statbuf.st_size);
+        }
 
-        file_buffer = mmap(NULL, statbuf.st_size, PROT_READ, MAP_SHARED, fd, 0);
+        file_buffer = mmap(NULL, statbuf.st_size, PROT_READ, MAP_SHARED | MAP_32BIT, fd, 0);
         close(fd);
         if (file_buffer == MAP_FAILED) {
             munmap(file_buffer, statbuf.st_size);
             if (flags.stats) {
-                add_file_info(error_files, filename, file_path, "Mmap error");
+                add_file_info(error_files, filename, file_path, "Mmap error", file_type);
                 perror("Mapping error");
             }
             continue;
         }
-
 
         unsigned char result[MD5_DIGEST_LENGTH];
         MD5((unsigned char *) (file_buffer), statbuf.st_size, result);
@@ -108,20 +121,52 @@ void find_duplicated(const char *current_dir,
 
         char *hash = md5_to_string(result);
 
-        check_duplicated(filename, file_path, hash, unique_files, duplicated_files, flags);
+        check_duplicated(filename, file_path, hash, file_type, unique_files, duplicated_files, flags);
 
         free(hash);
     }
     closedir(dir);
 }
 
-void check_duplicated(char *filename, char *file_path, char *hash,
+void check_by_name(char *filename, char *file_path, int file_type,
+                   list_t **unique_files,
+                   list_t **duplicated_files) {
+
+    if ((*unique_files) == NULL) {
+        add_file_info(unique_files, filename, file_path, "XFLAG", file_type);
+        return;
+    }
+
+    bool is_in_files = false;
+    list_t *ptr = *unique_files;
+    while (true) {
+        // If file in the list and current file same
+        if (strcmp(ptr->file_data.hash, "XFLAG") == 0 &&
+            strcmp(ptr->file_data.filename, filename) == 0) {
+            is_in_files = true;
+            add_file_info(duplicated_files, filename, file_path, "XFLAG", file_type);
+            break;
+        }
+        if (ptr->next != NULL) {
+            ptr = ptr->next;
+        } else {
+            is_in_files = false;
+            break;
+        }
+    }
+
+    if (!is_in_files) {
+        add_file_info(unique_files, filename, file_path, "XFLAG", file_type);
+    }
+}
+
+void check_duplicated(char *filename, char *file_path, char *hash, int file_type,
                       list_t **unique_files,
                       list_t **duplicated_files,
                       flags_t flags) {
 
     if ((*unique_files) == NULL) {
-        add_file_info(unique_files, filename, file_path, hash);
+        add_file_info(unique_files, filename, file_path, hash, file_type);
         return;
     }
 
@@ -134,7 +179,10 @@ void check_duplicated(char *filename, char *file_path, char *hash,
             if (flags.name_flag) {
                 // Skip, if name equals
                 if (strcmp(ptr->file_data.filename, filename) == 0) {
-                    add_file_info(duplicated_files, filename, file_path, hash);
+                    if (flags.type_flag && ptr->file_data.type != file_type) {
+                        continue;
+                    }
+                    add_file_info(duplicated_files, filename, file_path, hash, file_type);
                     is_in_files = true;
                     break;
                 } else {
@@ -146,9 +194,11 @@ void check_duplicated(char *filename, char *file_path, char *hash,
                     }
                     continue;
                 }
+            } else if (flags.type_flag && ptr->file_data.type != file_type) {
+                continue;
             }
             // If we should collect only unique files (don't have '-n' flag)
-            add_file_info(duplicated_files, filename, file_path, hash);
+            add_file_info(duplicated_files, filename, file_path, hash, file_type);
 
             is_in_files = true;
             break;
@@ -162,7 +212,7 @@ void check_duplicated(char *filename, char *file_path, char *hash,
     }
 
     if (!is_in_files) {
-        add_file_info(unique_files, filename, file_path, hash);
+        add_file_info(unique_files, filename, file_path, hash, file_type);
     }
 }
 

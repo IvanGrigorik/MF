@@ -9,8 +9,9 @@
 #include "../headers/file_work.h"
 #include "../headers/parse_input.h"
 
-void full_test() {
+char dir[] = "files";
 
+void full_test() {
     generate_files();
     getchar();
 
@@ -24,15 +25,15 @@ void generate_files() {
 
     printf("Creating new files... \n");
 
-    char file_name[FILENAME_MAX] = "../files/file";
+    char file_name[FILENAME_MAX] = "files/file";
     char content[4];
 
     FILE *fp;
 
     for (int i = 0; i < 9; i++) {
-        file_name[13] = (char) (i + 48);
+        file_name[10] = (char) (i + 48);
 
-        fp = fopen(file_name, "w");
+        fp = fopen(file_name, "rw+");
 
         for (int j = 0; j < 3; j++) {
             content[j] = (char) ((rand() % 2) + 48);
@@ -71,8 +72,6 @@ void clear_lists(list_t **unique_files, list_t **duplicated_files, list_t **erro
 
 void test_duplicated() {
 
-    char dir[] = "../files";
-
     flags_t flags;
     init_flags(&flags);
 
@@ -95,4 +94,17 @@ void test_duplicated() {
     output_statistic(unique_files, duplicated_files, error_files, flags);
 
     clear_lists(&unique_files, &duplicated_files, &error_files);
+}
+
+void delete_files(){
+
+    printf("Delete all files... \n");
+
+    char file_name[FILENAME_MAX] = "files/file";
+
+    for (int i = 0; i < 9; i++) {
+        file_name[10] = (char) (i + 48);
+        remove(file_name);
+    }
+    rmdir(dir);
 }
