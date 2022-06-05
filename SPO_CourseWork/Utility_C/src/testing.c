@@ -9,7 +9,7 @@
 #include "../headers/file_work.h"
 #include "../headers/parse_input.h"
 
-char dir[] = "files";
+char dir[] = "../files";
 
 void full_test() {
     generate_files();
@@ -25,22 +25,25 @@ void generate_files() {
 
     printf("Creating new files... \n");
 
-    char file_name[FILENAME_MAX] = "files/file";
+    char file_name[FILENAME_MAX] = "../files/file";
     char content[4];
 
     FILE *fp;
 
     for (int i = 0; i < 9; i++) {
-        file_name[10] = (char) (i + 48);
+        file_name[13] = (char) (i + 48);
 
-        fp = fopen(file_name, "rw+");
+        if((fp = fopen(file_name, "a")) == NULL){
+            perror("File opening error");
+        }
+        truncate(file_name, 0);
 
         for (int j = 0; j < 3; j++) {
             content[j] = (char) ((rand() % 2) + 48);
         }
         content[3] = '\0';
 
-        printf("\nFile name: %s\nFile content: %s", file_name, content);
+        printf("\nFile name: %s\nFile content: %s\n", file_name, content);
 
         fputs(content, fp);
         fclose(fp);
@@ -100,10 +103,10 @@ void delete_files(){
 
     printf("Delete all files... \n");
 
-    char file_name[FILENAME_MAX] = "files/file";
+    char file_name[FILENAME_MAX] = "../files/file";
 
     for (int i = 0; i < 9; i++) {
-        file_name[10] = (char) (i + 48);
+        file_name[13] = (char) (i + 48);
         remove(file_name);
     }
     rmdir(dir);

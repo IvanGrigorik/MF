@@ -20,6 +20,8 @@ char *get_dir(int argc, char *argv[]) {
         } else {
             break;
         }
+    }if(dir_to_find[0] == '/' && strlen(dir_to_find) == 1){
+        strcpy(dir_to_find, "~");
     }
     if (dir_to_find[0] == '~') {
         char *_skip_sym = dir_to_find + 1;

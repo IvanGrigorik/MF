@@ -27,6 +27,7 @@ void output_help() {
     printf("  -n    Collect files with same content, but different names\n");
     printf("  -a    Collect hidden files (starting with \".\")\n");
     printf("  -r    Collect files non-recursively (only in one directory)\n");
+    printf("  -x    Collect all-types files\n");
     printf("\n Other processes: \n");
     printf("  -d    Delete duplicated files with selection\n");
     printf("  -t    Test all program modules\n");
